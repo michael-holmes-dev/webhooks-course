@@ -1,13 +1,39 @@
-[![Learn to code with TwilioQuest](https://img.shields.io/static/v1?label=TwilioQuest&message=Learn%20to%20code%21&color=F22F46&labelColor=1f243c&style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAASFBMVEUAAAAZGRkcHBwjIyMoKCgAAABgYGBoaGiAgICMjIyzs7PJycnMzMzNzc3UoBfd3d3m5ubqrhfrMEDu7u739/f4vSb/3AD///9tbdyEAAAABXRSTlMAAAAAAMJrBrEAAAKoSURBVHgB7ZrRcuI6EESdyxXGYoNFvMD//+l2bSszRgyUYpFAsXOeiJGmj4NkuWx1Qeh+Ekl9DgEXOBwOx+Px5xyQhDykfgq4wG63MxxaR4ddIkg6Ul3g84vCIcjPBA5gmUMeXESrlukuoK33+33uID8TWeLAdOWsKpJYzwVMB7bOzYSGOciyUlXSn0/ABXTosJ1M1SbypZ4O4MbZuIDMU02PMbauhhHMHXbmebmALIiEbbbbbUrpF1gwE9kFfRNAJaP+FQEXCCTGyJ4ngDrjOFo3jEL5JdqjF/pueR4cCeCGgAtwmuRS6gDwaRiGvu+DMFwSBLTE3+jF8JyuV1okPZ+AC4hDFhCHyHQjdjPHUKFDlHSJkHQXMB3KpSwXNGJPcwwTdZiXlRN0gSp0zpWxNtM0beYE0nRH6QIbO7rawwXaBYz0j78gxjokDuv12gVeUuBD0MDi0OQCLvDaAho4juP1Q/jkAncXqIcCfd+7gAu4QLMACCLxpRsSuQh0igu0C9Svhi7weAGZg50L3IE3cai4IfkNZAC8dfdhsUD3CgKBVC9JE5ABAFzg4QL/taYPAAWrHdYcgfLaIgAXWJ7OV38n1LEF8tt2TH29E+QAoDoO5Ve/LtCQDmKM9kPbvCEBApK+IXzbcSJ0cIGF6e8gpcRhUDogWZ8JnaWjPXc/fNnBBUKRngiHgTUSivSzDRDgHZQOLvBQgf8rRt+VdBUUhwkU6VpJ+xcOwQUqZr+mR0kvBUgv6cB4+37hQAkXqE8PwGisGhJtN4xAHMzrsgvI7rccXqSvKh6jltGlrOHA3Xk1At3LC4QiPdX9/0ndHpGVvTjR4bZA1ypAKgVcwE5vx74ulwIugDt8e/X7JgfkucBMIAr26ndnB4UCLnDOqvteQsHlgX9N4A+c4cW3DXSPbwAAAABJRU5ErkJggg==)](https://twilio.com/quest?utm_source=gh-badge&utm_medium=referral&utm_campaign=webhooks-course)
+[Tutorial](https://www.youtube.com/watch?v=41NOoEz3Tzc)
+## v1: No code - Integration between [Github](https://github.com/michael-holmes-dev/webhooks-course) and [Discord](https://discord.gg/7rkFv8x4)
+- Simple
+- No customisation, can only do predefined calls based on the platform
 
-# Understanding Webhooks
+## v2: Minimal Code: Self-hosted server
+- More 
+- More customisation
+Steps:
+- Navigate to express-discorder directory
+```bash
+cd webhooks-course/code/express-discorder/
+```
+- Start the server
+```bash
+npm start
+```
+- Forward port 3000 and set the Visibility to Public (in the Ports tab of the terminal)
+- Copy the Forwarded Address and copy into correct webhook [here](https://github.com/michael-holmes-dev/webhooks-course/settings/hooks), and add "/github" at the end
+- Toggle the star in the repo, should get a notification with Space Guy (Neil DeGrasse Tyson) in Discord
 
-[![Watch the video on freeCodeCamp](https://img.youtube.com/vi/41NOoEz3Tzc/maxresdefault.jpg)](https://youtu.be/41NOoEz3Tzc)
-This repository contains detailed notes and code for the Understanding Webhooks course 💡
-
-* [🚀 Code](./code)
-* [📚 Notes](notes.md)
-* [🎮 Learn more for free using a video game](https://twilio.com/quest?utm_source=gh-link&utm_medium=referral&utm_campaign=webhooks-course)
 
 
-[@craigsdennis](https://twitter.com/craigsdennis)
+## v3: Serverless
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Amazon_Lambda_architecture_logo.svg" alt="Alt text" width="100" height="100">
+
+- Basically the same thing as v2, but we're using serverless tools instead of running it locally. Should be free for around 1,000,000 requests per month, so basically always free. 
+- Tooling: AWS Lambda
+- How it works: We essentially upload a function, it gives us a URL to call that function, put that URL into our webhook caller on [github](https://github.com/michael-holmes-dev/webhooks-course/settings/hooks), then let it do its thing
+- Why it's better than v2: It's free, we don't have to host it from our computer (more secure and free), and the URL doesn't change and there's no downtime. It can also scale automatically
+
+
+- WHAT I DID: Updated netlify-discorder/discorder.js to work for AWS Lambda instead of Netlify
+    - [AWS Lambda function](https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions/lambda-discorder?subtab=envVars&tab=code)
+    - Changes:
+        - Environment variable: Set in the 'Configuration' tab for the AWS Lambda function
+        - JSON parsed the event (required when using API Gateway with Lambda, which I used API Gateway to set an endpoint for the Lambda function)
+
+
